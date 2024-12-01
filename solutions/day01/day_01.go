@@ -2,21 +2,27 @@ package day01
 
 import (
 	"bufio"
-	"slices"
+	"sort"
 	"strconv"
 	"strings"
 )
 
-func convStringToInt(str string) int {
-	val, _ := strconv.Atoi(str)
-	return val
+func sortInsert(data []int, val int) []int {
+	idx := sort.SearchInts(data, val)
+	if idx == len(data) {
+		return append(data, val)
+	}
+
+	// Make room
+	data = append(data[:idx+1], data[idx:]...)
+
+	data[idx] = val
+	return data
 }
 
 func Solver(input string) (int, int) {
-
 	leftLocations := make([]int, 0, len(input))
 	rightLocations := make([]int, 0, len(input))
-
 	frequency := make(map[int]int)
 
 	scanner := bufio.NewScanner(strings.NewReader(input))
@@ -24,14 +30,13 @@ func Solver(input string) (int, int) {
 		line := scanner.Text()
 		locationIDs := strings.Split(line, "   ")
 
-		leftLocations = append(leftLocations, convStringToInt(locationIDs[0]))
-		rightLocations = append(rightLocations, convStringToInt(locationIDs[1]))
+		left, _ := strconv.Atoi(locationIDs[0])
+		right, _ := strconv.Atoi(locationIDs[1])
+		frequency[right] += 1
 
-		frequency[rightLocations[len(rightLocations)-1]] += 1
+		leftLocations = sortInsert(leftLocations, left)
+		rightLocations = sortInsert(rightLocations, right)
 	}
-
-	slices.Sort(leftLocations)
-	slices.Sort(rightLocations)
 
 	distance := 0
 	similarity := 0
@@ -43,7 +48,6 @@ func Solver(input string) (int, int) {
 		}
 
 		distance += diff
-
 		similarity += leftLocations[i] * frequency[leftLocations[i]]
 	}
 
