@@ -9,6 +9,7 @@ import (
 	"github.com/phortheman/AdventOfCode_2024_go/solutions/day01"
 	"github.com/phortheman/AdventOfCode_2024_go/solutions/day02"
 	"github.com/phortheman/AdventOfCode_2024_go/solutions/day03"
+	"github.com/phortheman/AdventOfCode_2024_go/solutions/day04"
 )
 
 var (
@@ -16,6 +17,7 @@ var (
 		"inputs/day_01.txt",
 		"inputs/day_02.txt",
 		"inputs/day_03.txt",
+		"inputs/day_04.txt",
 	}
 )
 
@@ -60,6 +62,9 @@ func main() {
 
 		case 3:
 			part1, part2 = day03.Solver(string(content))
+
+		case 4:
+			part1, part2 = day04.Solver(content)
 		}
 
 		fmt.Printf("\nDay %d	Part 1: %d\n", day, part1)
